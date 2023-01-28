@@ -1,0 +1,12 @@
+###
+POST http://localhost:3000
+Content-Type: application/json
+
+{
+    "name": "Shubham Agarwal",
+    "email": "shubhamkumar1@gmail.com",
+    "dob": "2001-02-01"
+}
+
+###
+GET http://localhost:3000/650

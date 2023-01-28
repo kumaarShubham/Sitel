@@ -6,7 +6,7 @@ app.use(express.json())
 const UserDB = require('./models/User')
 
 try{
-    mongoose.connect('mongodb+srv://root:root@cluster0.sipbfgg.mongodb.net/User-User?retryWrites=true&w=majority', {useNewUrlParser: true})
+    mongoose.connect('mongodb://localhost:27017/user', {useNewUrlParser: true})
     const db = mongoose.connection
     db.on('error', (error) => console.error(error))
     db.once('open', () => console.log('Connected to database'))
@@ -18,7 +18,7 @@ catch(err){
 // Create an User and a user
 app.post('/', async (req, res) => {    
     try{
-        let id = Math.random() * 1000
+        let id = Math.ceil(Math.random() * 1000)
         const newUser = new UserDB({
             id: id,
             name: req.body.name,
@@ -35,7 +35,7 @@ app.post('/', async (req, res) => {
 
 
 // Fetch a user
-app.patch('/:id', async (req, res) => {
+app.get('/:id', async (req, res) => {
     try{
         const user = await UserDB.find({id: req.params.id})
         res.status(201).json(user)
@@ -46,9 +46,9 @@ app.patch('/:id', async (req, res) => {
 
 
 // Delete a user
-app.patch('/:id', async (req, res) => {
+app.delete('/:id', async (req, res) => {
     try{
-        const user = await UserDB.findByIdAndDelete({id: req.params.id})
+        const user = await UserDB.findOneAndDelete({id: req.params.id})
         res.status(201).json(user)
     } catch(err){
         res.status(400).json({message: err.message})
